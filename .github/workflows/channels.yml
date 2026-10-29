@@ -1,0 +1,24 @@
+name: Channel smoke test
+
+# The skill's whole premise is that these five channels answer. This job
+# checks that they still do -- an upstream change (a new Anubis wall, a
+# marc.info redesign) would otherwise only surface in someone's dead end.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke test the five channels
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Smoke test
+        run: bash scripts/smoke.sh

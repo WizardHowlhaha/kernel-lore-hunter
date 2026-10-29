@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate skill package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package, frontmatter and script checks
+        run: bash scripts/selftest.sh
+
+      - name: Agent Skills spec validation
+        continue-on-error: true
+        run: |
+          npm install -g @agentskills/skills-ref
+          skills-ref validate .
+
+      - name: Shell syntax
+        run: |
+          bash -n install.sh
+          bash -n uninstall.sh
+          for f in scripts/*.sh; do bash -n "$f"; done
+
+      - name: Python syntax
+        run: python3 -m py_compile scripts/lore.py scripts/patchew.py
+
+      - name: ShellCheck
+        continue-on-error: true
+        uses: ludeeus/action-shellcheck@master
+        with:
+          files: 'install.sh uninstall.sh scripts/*.sh'
+          severity: warning
+
+  installer:
+    name: Installer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install.sh --help
+        run: ./install.sh --help
+
+      - name: install.sh --dry-run
+        run: ./install.sh --dry-run
+
+      - name: Install into a throwaway HOME
+        run: |
+          export HOME="$RUNNER_TEMP/fakehome"
+          mkdir -p "$HOME"
+          ./install.sh
+          test -f "$HOME/.agents/skills/kernel-lore-hunter/SKILL.md"
+          test -L "$HOME/.claude/skills/kernel-lore-hunter"
+          test -L "$HOME/.codex/skills/kernel-lore-hunter"
+
+      - name: The installed copy passes its own self-test
+        run: bash "$HOME/.agents/skills/kernel-lore-hunter/scripts/selftest.sh"
+
+      - name: Uninstall removes what it installed
+        run: |
+          ./uninstall.sh --purge
+          test ! -e "$HOME/.agents/skills/kernel-lore-hunter"
+          test ! -e "$HOME/.claude/skills/kernel-lore-hunter"

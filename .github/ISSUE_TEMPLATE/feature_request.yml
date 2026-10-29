@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest a new channel, script, or workflow for the skill
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this is about an existing channel that broke, a **bug report** is a
+        better fit. This form is for things the skill does not do yet.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the situation you hit, not the solution you have in mind.
+      placeholder: |
+        When a series is cross-posted to four lists, `lore.py thread` only
+        shows the replies from the list I asked about, so I have to
+        reconstruct the rest by hand.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: What would you like the skill to do instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: |
+        If you have already tried this manually, show the commands and their
+        real output. If you have not, say so.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This changes `SKILL.md` (the SOP) rather than adding a `references/` file
+          required: false
+        - label: This would add a third-party dependency
+          required: false

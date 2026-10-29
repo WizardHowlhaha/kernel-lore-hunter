@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or usage help
+    url: https://github.com/WizardHowlhaha/kernel-lore-hunter/discussions
+    about: Ask how to use the skill, or how to interpret a kernel thread.
+  - name: Security vulnerability
+    url: https://github.com/WizardHowlhaha/kernel-lore-hunter/security/advisories/new
+    about: Report a security problem privately. Do not open a public issue.

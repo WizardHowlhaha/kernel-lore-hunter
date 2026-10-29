@@ -1,0 +1,84 @@
+name: Bug report
+description: Something in the skill or its scripts does not work as documented
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing this. Please include the **exact command** and its
+        **real output** -- this project asks for evidence, and it is the
+        fastest way to get a fix.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you observe, and what did you expect instead?
+      placeholder: |
+        `lore.py thread <msgid>` printed "(no thread overview)" for a thread
+        that clearly has 12 replies on lore.kernel.org.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: The exact commands to reproduce, including the skill version.
+      render: shell
+      placeholder: |
+        $ python3 scripts/lore.py thread CAHk-=wjLjgfwgSZ1RDk4YdNFcV0ntosMO5AmBoHD76Zb3HFY7Q@mail.gmail.com
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Skill version
+      placeholder: "1.0.0 (git describe --tags)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Which agent were you using?
+      options:
+        - Claude Code
+        - Codex
+        - Cursor
+        - Gemini CLI
+        - OpenCode
+        - GitHub Copilot
+        - Windsurf
+        - Cline
+        - Goose
+        - MiniMax Code
+        - Other / not an agent issue
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, python version, curl version, and whether the network is sandboxed.
+      placeholder: "macOS 15.6 / python 3.9.6 / curl 8.7.1 / network enabled"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Output or logs
+      description: Paste the relevant output. Redact anything private.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I ran `bash scripts/selftest.sh` and it passed
+          required: false
+        - label: I ran `bash scripts/smoke.sh` and it shows which channels fail
+          required: false
