@@ -73,6 +73,15 @@ jobs:
           test -L "$HOME/.cursor/skills/kernel-lore-hunter"
           test -f "$HOME/.agents/skills/kernel-lore-hunter/SKILL.md"
 
+      # No agent at all: the canonical copy is still installed and the
+      # run must not trip over an empty list.
+      - name: A home with no agent still gets the canonical copy
+        run: |
+          export HOME="$RUNNER_TEMP/emptyhome"
+          mkdir -p "$HOME"
+          ./install.sh
+          test -f "$HOME/.agents/skills/kernel-lore-hunter/SKILL.md"
+
       - name: The installed copy passes its own self-test
         run: |
           export HOME="$RUNNER_TEMP/fakehome"

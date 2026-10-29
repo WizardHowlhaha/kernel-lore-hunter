@@ -275,7 +275,9 @@ say "verification:"
 ok=1
 for row in "${AGENTS[@]}"; do
   IFS='|' read -r aid upath ppath _ <<<"$row"
-  [[ " ${installed[*]} " == *" $aid "* ]] || continue
+  # ${#installed[@]} is safe on an empty array under set -u; ${installed[*]}
+  # is not on bash 3.2, which is what macOS ships.
+  [[ ${#installed[@]} -gt 0 && " ${installed[*]} " == *" $aid "* ]] || continue
   if [[ "$SCOPE" == "user" ]]; then parent="$upath"; else parent="$BASE/$ppath"; fi
   if [[ -r "$parent/$SKILL_NAME/SKILL.md" ]]; then
     info "$aid: SKILL.md reachable"
@@ -293,7 +295,11 @@ fi
 
 say ""
 if [[ $ok -eq 1 ]]; then
-  say "installed for: ${installed[*]:-none}"
+  if [[ ${#installed[@]} -eq 0 ]]; then
+    say "installed for: none (no agent was detected -- use -a <agent> to force one)"
+  else
+    say "installed for: ${installed[*]}"
+  fi
   say ""
   say "Next steps:"
   say "  * restart your agent so it picks the skill up"
