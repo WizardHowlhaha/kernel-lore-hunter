@@ -53,20 +53,35 @@ jobs:
       - name: install.sh --dry-run
         run: ./install.sh --dry-run
 
+      # The installer only links agents it can see on the machine, so the
+      # fake home needs the config directories a real install would have.
       - name: Install into a throwaway HOME
         run: |
           export HOME="$RUNNER_TEMP/fakehome"
-          mkdir -p "$HOME"
+          mkdir -p "$HOME/.claude" "$HOME/.codex"
           ./install.sh
           test -f "$HOME/.agents/skills/kernel-lore-hunter/SKILL.md"
           test -L "$HOME/.claude/skills/kernel-lore-hunter"
           test -L "$HOME/.codex/skills/kernel-lore-hunter"
 
+      # An explicit --agent installs even when the agent was not detected.
+      - name: An explicit agent is installed without being detected
+        run: |
+          export HOME="$RUNNER_TEMP/barehome"
+          mkdir -p "$HOME"
+          ./install.sh -a cursor
+          test -L "$HOME/.cursor/skills/kernel-lore-hunter"
+          test -f "$HOME/.agents/skills/kernel-lore-hunter/SKILL.md"
+
       - name: The installed copy passes its own self-test
-        run: bash "$HOME/.agents/skills/kernel-lore-hunter/scripts/selftest.sh"
+        run: |
+          export HOME="$RUNNER_TEMP/fakehome"
+          bash "$HOME/.agents/skills/kernel-lore-hunter/scripts/selftest.sh"
 
       - name: Uninstall removes what it installed
         run: |
+          export HOME="$RUNNER_TEMP/fakehome"
           ./uninstall.sh --purge
           test ! -e "$HOME/.agents/skills/kernel-lore-hunter"
           test ! -e "$HOME/.claude/skills/kernel-lore-hunter"
+          test ! -e "$HOME/.codex/skills/kernel-lore-hunter"
