@@ -1,0 +1,33 @@
+{
+  "name": "kernel-lore-hunter",
+  "owner": {
+    "name": "Wenyu Liu",
+    "url": "https://github.com/WizardHowlhaha"
+  },
+  "metadata": {
+    "description": "Kernel patch and discussion tracing for AI coding agents",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "kernel-lore-hunter",
+      "source": "./",
+      "description": "Turn an article, a commit, or a kernel symbol into the real patchset, the real LKML thread, and a verified merge status.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Wenyu Liu",
+        "url": "https://github.com/WizardHowlhaha"
+      },
+      "homepage": "https://github.com/WizardHowlhaha/kernel-lore-hunter",
+      "license": "MIT",
+      "keywords": [
+        "linux",
+        "kernel",
+        "lkml",
+        "lore",
+        "patch",
+        "mainline"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "kernel-lore-hunter",
+  "description": "Trace a Linux kernel patch or discussion back to its code, its mailing-list thread, and its verified merge status.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Wenyu Liu",
+    "url": "https://github.com/WizardHowlhaha"
+  },
+  "homepage": "https://github.com/WizardHowlhaha/kernel-lore-hunter",
+  "repository": "https://github.com/WizardHowlhaha/kernel-lore-hunter",
+  "license": "MIT",
+  "keywords": [
+    "linux",
+    "kernel",
+    "lkml",
+    "lore",
+    "patch",
+    "patchset",
+    "mainline"
+  ]
+}
