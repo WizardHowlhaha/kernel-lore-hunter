@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local scratch
+*.log
+.DS_Store
+tmp/
+scratch/
